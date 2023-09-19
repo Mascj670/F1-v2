@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F1 2024 Schedule</title>
+    <link rel="stylesheet" href="css/style.css">
+
+    <script>
+        var darkTheme = [
+            // Set the base color for land areas
+            {
+                "elementType": "geometry",
+                "stylers": [
+                    { "color": "#242f3e" }
+                ]
+            },
+            // Set the color for water bodies
+            {
+                "featureType": "water",
+                "elementType": "geometry",
+                "stylers": [
+                    { "color": "#0e1626" }
+                ]
+            },
+            // Hide all the default labels on map 
+            {
+                "elementType": "labels",
+                "stylers": [
+                    { "visibility": "off" }
+                ]
+            },
+            // Define the border color and thickness for countries
+            {
+                "featureType": "administrative.country",
+                "elementType": "geometry.stroke",
+                "stylers": [
+                    { "color": "#545454" }, // Border color
+                    { "weight": 1.5 } // Border thickness
+                ]
+            },
+            // Define the country fill color
+            {
+                "featureType": "administrative.country",
+                "elementType": "geometry.fill",
+                "stylers": [
+                    { "visibility": "on" },
+                    { "color": "#3a3a3a" } // Fill color
+                ]
+            }
+
+        ];
+
+        function handleMarkerClick(url) {
+            window.location.href = url;
+        }
+
+
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 3, // Adjusted zoom level for a better view of Africa
+                center: {lat: 10, lng: 27}, // Roughly the center of Africa
+                styles: darkTheme,
+            });
+    
+            // Example F1 race locations
+            var locations = [
+                {lat: 26.0325, lng: 50.5106, city: "Sakhir", url: "https://www.racingcircuits.info/middle-east/bahrain/bahrain-international-circuit.html"}, // Bahrain Grand Prix
+                {lat: 21.5435, lng: 39.1728, city: "Jeddah", url: "https://www.racingcircuits.info/middle-east/saudi-arabia/jeddah-corniche-circuit.html"}, // Saudi Arabia Grand Prix
+                {lat: -37.8136, lng: 144.9631, city: "Melbourne", url: "https://www.racingcircuits.info/australasia/australia/albert-park,-melbourne.html"}, // Australia Grand Prix
+                {lat: 34.8432, lng: 136.5236, city: "Suzuka", url: "https://www.racingcircuits.info/asia/japan/suzuka.html"}, // Japan Grand Prix
+                {lat: 31.2304, lng: 121.4737, city: "Shanghai", url: "https://www.racingcircuits.info/asia/china/shanghai-international-circuit.html"}, // China Grand Prix
+                {lat: 25.7617, lng: -80.1918, city: "Miami", url: "https://www.racingcircuits.info/north-america/usa/miami.html"}, // Miami Grand Prix
+                {lat: 44.3559, lng: 11.7143, city: "Imola", url: "https://www.racingcircuits.info/europe/italy/imola.html"}, // Emilia Romagna Grand Prix
+                {lat: 43.7384, lng: 7.4246, city: "Monaco", url: "https://www.racingcircuits.info/europe/monaco/monte-carlo.html"}, // Monaco Grand Prix
+                {lat: 45.5017, lng: -73.5673, city: "Montreal", url: "https://www.racingcircuits.info/north-america/canada/circuit-gilles-villeneuve,-montreal.html"}, // Canada Grand Prix
+                {lat: 41.3784, lng: 2.1920, city: "Barcelona", url: "https://www.racingcircuits.info/europe/spain/circuit-de-barcelona-catalunya.html"}, // Spain Grand Prix
+                {lat: 47.2195, lng: 14.7643, city: "Spielberg", url: "https://www.racingcircuits.info/europe/austria/red-bull-ring-a-1-ring-osterrichring.html"}, // Austria Grand Prix
+                {lat: 52.0735, lng: -1.0169, city: "Silverstone", url: "https://www.racingcircuits.info/europe/united-kingdom/silverstone.html"}, // United Kingdom Grand Prix
+                {lat: 47.4979, lng: 19.0402, city: "Budapest", url: "https://www.racingcircuits.info/europe/hungary/hungaroring.html"}, // Hungary Grand Prix
+                {lat: 50.4372, lng: 5.9714, city: "Spa", url: "https://www.racingcircuits.info/europe/belgium/spa-francorchamps.html"}, // Belgium Grand Prix
+                {lat: 52.3885, lng: 4.5400, city: "Zandvoort", url: "https://www.racingcircuits.info/europe/netherlands/zandvoort.html"}, // Netherlands Grand Prix
+                {lat: 45.6156, lng: 9.2815, city: "Monza", url: "https://www.racingcircuits.info/europe/italy/monza.html"}, // Italy Grand Prix
+                {lat: 40.4093, lng: 49.8671, city: "Baku", url: "https://www.racingcircuits.info/asia/azerbaijan/baku.html"}, // Azerbaijan Grand Prix
+                {lat: 1.3521, lng: 103.8198, city: "Singapore", url: "https://www.racingcircuits.info/asia/singapore/marina-bay-singapore.html"}, // Singapore Grand Prix
+                {lat: 30.2672, lng: -97.7431, city: "Austin", url: "https://www.racingcircuits.info/north-america/usa/circuit-of-the-americas.html"}, // USA Grand Prix
+                {lat: 19.4326, lng: -99.1332, city: "Mexico City", url: "https://www.racingcircuits.info/north-america/mexico/mexico-city.html"}, // Mexico Grand Prix
+                {lat: -23.5505, lng: -46.6333, city: "Sao Paulo", url: "https://www.racingcircuits.info/south-america/brazil/interlagos.html"}, // Brazil Grand Prix
+                {lat: 36.1146, lng: -115.1728, city: "Las Vegas", url: "https://www.racingcircuits.info/north-america/usa/las-vegas-strip-street-circuit.html"}, // Las Vegas Grand Prix 
+                {lat: 25.3548, lng: 51.1839, city: "Losail", url: "https://www.racingcircuits.info/middle-east/qatar/losail-international-circuit.html"}, // Qatar Grand Prix
+                {lat: 24.4539, lng: 54.3773, city: "Yas Marina", url: "https://www.racingcircuits.info/middle-east/united-arab-emirates/yas-marina.html"} // Abu Dhabi Grand Prix
+            ];
+    
+            for (var i = 0; i < locations.length; i++) {
+                let marker = new google.maps.Marker({
+                    position: locations[i],
+                    map: map,
+                    label: {
+                        text: locations[i].city, // Using the 'city' property from each location object
+                        color: "white", 
+                        fontSize: "12px", 
+                        fontWeight: "bold"
+                    },
+                    icon: {
+                        path: google.maps.SymbolPath.CIRCLE,
+                        scale: 7, // Adjust the size of the circle
+                        fillColor: 'red',
+                        fillOpacity: .25,
+                        strokeColor: 'red',
+                        strokeWeight: 1,
+                        labelOrigin: new google.maps.Point(0, -3) 
+                    }
+                });
+
+                if (locations[i].url) {
+                        google.maps.event.addListener(marker, 'click', (function(url) {
+                            return function() {
+                                handleMarkerClick(url);
+                            }
+                        })(locations[i].url));
+                    }
+                }
+            }   
+    </script>
+    
+</head>
+<body>
+    <div id="map" style="width: 100%; height: 98vh;"></div>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDi4Fdxgi6GVvejBIbD00qfR-MfSN75wxw&callback=initMap"></script>
+</body>
+</html>
